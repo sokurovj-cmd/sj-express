@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SJ Express — Multi-Account Gaming Delivery</title>
+    <title>SJ Express — Gaming Neon Delivery Bishkek</title>
     <style>
         :root {
             --bg-main: #030008;
-            --card-glass: rgba(18, 10, 36, 0.8);
+            --card-glass: rgba(18, 10, 36, 0.75);
             --whatsapp-green: #25D366;
-            --accent-neon: #a855f7;
-            --accent-cyan: #06b6d4;
             --text-main: #f8fafc;
             --text-muted: #a1a1aa;
+        }
+
+        /* Неоновые переливы цветов */
+        @keyframes neonGlow {
+            0% { --neon-color: #a855f7; --neon-shadow: rgba(168, 85, 247, 0.6); }
+            33% { --neon-color: #06b6d4; --neon-shadow: rgba(6, 182, 212, 0.6); }
+            66% { --neon-color: #ec4899; --neon-shadow: rgba(236, 72, 153, 0.6); }
+            100% { --neon-color: #a855f7; --neon-shadow: rgba(168, 85, 247, 0.6); }
         }
 
         * {
@@ -26,14 +32,15 @@
         body {
             background-color: var(--bg-main);
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.2) 0%, transparent 50%);
+                radial-gradient(circle at 20% 15%, rgba(168, 85, 247, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 85%, rgba(6, 182, 212, 0.2) 0%, transparent 50%);
             background-attachment: fixed;
             color: var(--text-main);
             padding-bottom: 60px;
             overflow-x: hidden;
         }
 
+        /* Шапка */
         header {
             position: sticky;
             top: 0;
@@ -42,44 +49,55 @@
             -webkit-backdrop-filter: blur(25px);
             background: rgba(3, 0, 8, 0.85);
             border-bottom: 1px solid rgba(168, 85, 247, 0.3);
-            padding: 12px 16px;
+            padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 900;
             letter-spacing: 2px;
-            background: linear-gradient(90deg, #fff, #a855f7, #06b6d4);
+            background: linear-gradient(90deg, #fff, #a855f7, #06b6d4, #ec4899);
+            background-size: 300% 300%;
+            animation: gradientShift 6s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.8));
         }
 
-        .header-btn-group { display: flex; gap: 8px; }
-
-        .btn-login-hdr {
-            background: rgba(168, 85, 247, 0.2);
-            border: 1px solid var(--accent-neon);
-            color: #fff;
-            padding: 7px 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        .container { max-width: 480px; margin: 0 auto; padding: 16px; }
+        .header-wa {
+            background: rgba(37, 211, 102, 0.15);
+            border: 1px solid rgba(37, 211, 102, 0.5);
+            color: var(--whatsapp-green);
+            padding: 8px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: 0 0 12px rgba(37, 211, 102, 0.3);
+        }
 
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        /* Неоновое навигационное меню (Вкладки) */
         .tab-menu {
             display: flex;
-            gap: 6px;
-            margin-bottom: 18px;
+            gap: 8px;
+            margin-bottom: 20px;
             overflow-x: auto;
-            padding-bottom: 4px;
+            padding-bottom: 6px;
             scrollbar-width: none;
         }
 
@@ -91,157 +109,161 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(168, 85, 247, 0.25);
             color: var(--text-muted);
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 12px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             text-align: center;
+            transition: all 0.3s ease;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(6, 182, 212, 0.35));
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(6, 182, 212, 0.3));
             border-color: #a855f7;
             color: #fff;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 18px rgba(168, 85, 247, 0.5);
         }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
+        /* Карточки с живой подсветкой */
         .card {
             background: var(--card-glass);
             border: 1px solid rgba(168, 85, 247, 0.3);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-radius: 22px;
-            padding: 20px;
-            margin-bottom: 18px;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+            border-radius: 24px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(168, 85, 247, 0.1);
+            position: relative;
         }
 
         .card-title {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 800;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             color: #fff;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
         }
 
-        .form-group { margin-bottom: 14px; }
+        .form-group { margin-bottom: 15px; }
 
         label {
             display: block;
             font-size: 11px;
             color: var(--text-muted);
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        input[type="text"], input[type="number"], input[type="tel"], input[type="password"], select, textarea {
+        input[type="text"], input[type="number"], input[type="tel"], select, textarea {
             width: 100%;
-            background: rgba(8, 3, 18, 0.85);
+            background: rgba(8, 3, 18, 0.8);
             border: 1px solid rgba(168, 85, 247, 0.3);
             border-radius: 14px;
-            padding: 12px 14px;
+            padding: 14px;
             color: #fff;
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
+            transition: all 0.3s ease;
         }
 
         input:focus, select:focus, textarea:focus {
             border-color: #06b6d4;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+            box-shadow: 0 0 18px rgba(6, 182, 212, 0.5);
         }
 
+        .checkbox-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 14px;
+            border-radius: 14px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-card input {
+            width: 20px;
+            height: 20px;
+            accent-color: #a855f7;
+        }
+
+        .checkbox-card label {
+            margin: 0;
+            text-transform: none;
+            font-size: 13px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        /* Прайс с неоновым сиянием */
         .price-card {
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(6, 182, 212, 0.2));
             border: 1px solid #06b6d4;
-            border-radius: 16px;
-            padding: 16px;
+            border-radius: 18px;
+            padding: 18px;
             text-align: center;
-            margin-top: 18px;
-            box-shadow: 0 0 18px rgba(6, 182, 212, 0.3);
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
         }
 
-        .price-value { font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 18px #06b6d4; }
+        .price-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+        .price-value { font-size: 32px; font-weight: 900; color: #fff; text-shadow: 0 0 20px #06b6d4; margin-top: 4px; }
 
+        /* Кнопка с неон-эффектом */
         .btn-neon-wa {
             width: 100%;
             background: linear-gradient(135deg, #25D366, #059669);
             color: white;
             border: none;
-            padding: 16px;
+            padding: 18px;
             border-radius: 16px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 800;
-            margin-top: 16px;
+            margin-top: 18px;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             text-decoration: none;
+            transition: 0.2s;
         }
 
-        .btn-2gis {
-            width: 100%;
-            background: linear-gradient(135deg, #60a5fa, #2563eb);
-            color: white;
-            border: none;
+        .btn-neon-wa:active { transform: scale(0.97); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .feature-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(168, 85, 247, 0.25);
             padding: 14px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 700;
-            margin-top: 10px;
-            cursor: pointer;
-            display: block;
+            border-radius: 16px;
             text-align: center;
-            text-decoration: none;
-            box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+            box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.1);
         }
-
-        /* Модальное окно авторизации */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal.active { display: flex; }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            background: rgba(6, 182, 212, 0.2);
-            color: #38bdf8;
-            border: 1px solid #06b6d4;
-        }
-
-        footer { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 25px; }
+        .feature-icon { font-size: 26px; margin-bottom: 6px; }
+        .feature-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .feature-desc { font-size: 11px; color: var(--text-muted); }
+        footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 30px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">SJ EXPRESS</div>
-        <div class="header-btn-group">
-            <button class="btn-login-hdr" onclick="openModal()">🔑 Вход / Кабинет</button>
-        </div>
+        <a href="https://wa.me/996506696697" class="header-wa" target="_blank">💬 WhatsApp</a>
     </header>
 
     <div class="container">
@@ -249,24 +271,38 @@
         <!-- Переключатель вкладок -->
         <div class="tab-menu">
             <button class="tab-btn active" onclick="openTab('tab-order', this)">🚀 Заказать</button>
-            <button class="tab-btn" onclick="openTab('tab-track', this)">📍 Отследить</button>
             <button class="tab-btn" onclick="openTab('tab-work', this)">💼 Вакансии</button>
             <button class="tab-btn" onclick="openTab('tab-biz', this)">🏢 Бизнесу</button>
+            <button class="tab-btn" onclick="openTab('tab-about', this)">💎 О нас</button>
         </div>
 
-        <!-- ВКЛАДКА 1: ЗАКАЗ -->
+        <!-- ВКЛАДКА 1: ЗАКАЗ ДОВОЗКИ -->
         <div id="tab-order" class="tab-content active">
+
+            <div class="grid-2" style="margin-bottom: 20px;">
+                <div class="feature-box">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">5-15 минут</div>
+                    <div class="feature-desc">Быстрая подача курьера</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">🌙</div>
+                    <div class="feature-title">08:00 – 00:00</div>
+                    <div class="feature-desc">Работаем без выходных</div>
+                </div>
+            </div>
+
             <div class="card">
-                <div class="card-title">📦 Оформить доставку</div>
+                <div class="card-title">📦 Рассчитать и заказать</div>
 
                 <div class="form-group">
                     <label>Адрес отправления</label>
-                    <input type="text" id="from" placeholder="Откуда? (напр., Чуй 120)">
+                    <input type="text" id="from" placeholder="Откуда? (например, Чуй 120)">
                 </div>
 
                 <div class="form-group">
                     <label>Адрес доставки</label>
-                    <input type="text" id="to" placeholder="Куда? (напр., Манаса 40)">
+                    <input type="text" id="to" placeholder="Куда? (например, Манаса 40)">
                 </div>
 
                 <div class="form-group">
@@ -275,166 +311,241 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Имя и Телефон</label>
-                    <input type="text" id="name" placeholder="Ваше Имя" style="margin-bottom:8px;">
+                    <label>Тариф</label>
+                    <select id="type" onchange="calculate()">
+                        <option value="normal">Стандартная доставка</option>
+                        <option value="express">Срочная (+50 сом)</option>
+                    </select>
+                </div>
+
+                <label style="margin-top: 15px;">Дополнительные опции</label>
+
+                <div class="checkbox-card" onclick="toggleCheckbox('optBuy')">
+                    <label for="optBuy">Выкуп товара (+50 сом)</label>
+                    <input type="checkbox" id="optBuy" onchange="calculate()">
+                </div>
+
+                <div class="checkbox-card" onclick="toggleCheckbox('optDoor')">
+                    <label for="optDoor">До двери / Этаж (+30 сом)</label>
+                    <input type="checkbox" id="optDoor" onchange="calculate()">
+                </div>
+
+                <div class="checkbox-card" onclick="toggleCheckbox('optFragile')">
+                    <label for="optFragile">Хрупкий груз (+30 сом)</label>
+                    <input type="checkbox" id="optFragile" onchange="calculate()">
+                </div>
+
+                <div class="form-group" style="margin-top: 16px;">
+                    <label>Ваше Имя</label>
+                    <input type="text" id="name" placeholder="Как к вам обращаться?">
+                </div>
+
+                <div class="form-group">
+                    <label>Ваш Телефон</label>
                     <input type="tel" id="phone" placeholder="+996 (___) __-__-__">
                 </div>
 
+                <div class="form-group">
+                    <label>Комментарий</label>
+                    <textarea id="comment" rows="2" placeholder="Квартира, этаж, детали..."></textarea>
+                </div>
+
                 <div class="price-card">
-                    <div style="font-size:11px; color:#a1a1aa;">Итоговая стоимость</div>
+                    <div class="price-label">Предварительный расчёт</div>
                     <div class="price-value" id="priceResult">120 сом</div>
                 </div>
 
-                <button class="btn-neon-wa" onclick="sendOrderWA()">📲 Отправить заказ в WhatsApp</button>
+                <button class="btn-neon-wa" onclick="sendOrderWA()">
+                    📲 Заказать через WhatsApp
+                </button>
             </div>
         </div>
 
-        <!-- ВКЛАДКА 2: ТРЕКИНГ ДЛЯ КЛИЕНТА -->
-        <div id="tab-track" class="tab-content">
-            <div class="card">
-                <div class="card-title">🔍 Отследить статус заказа</div>
-                <div class="form-group">
-                    <label>Введите номер заказа</label>
-                    <input type="text" id="trackNum" placeholder="Например: #SJ-101">
-                </div>
-                <button class="btn-login-hdr" style="width:100%; padding:14px;" onclick="checkTrack()">Проверить статус</button>
-
-                <div id="trackResult" style="margin-top:20px; display:none;">
-                    <div class="status-badge" id="trackBadge">Заказ принят</div>
-                    <p style="font-size:13px; color:#fff; margin-top:10px;" id="trackDesc">Курьер назначается на ваш заказ...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ВКЛАДКА 3: ВАКАНСИИ -->
+        <!-- ВКЛАДКА 2: РАБОТА КУРЬЕРОМ -->
         <div id="tab-work" class="tab-content">
             <div class="card">
-                <div class="card-title">🛵 Работа курьером</div>
-                <p style="font-size:13px; color:#a1a1aa; margin-bottom:12px;">Зарабатывай от 1500 до 3000 сом в день с ежедневными выплатами!</p>
-                <input type="text" id="jobName" placeholder="Имя" style="margin-bottom:8px;">
-                <input type="tel" id="jobPhone" placeholder="Телефон" style="margin-bottom:8px;">
-                <button class="btn-neon-wa" onclick="sendJobWA()">💼 Подать заявку курьера</button>
+                <div class="card-title">🛵 Работа курьером в SJ Express</div>
+                <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-bottom: 16px;">
+                    Приглашаем ответственных курьеров в нашу команду в Бишкеке! Работайте в удобное время и зарабатывайте ежедневно.
+                </p>
+
+                <div class="grid-2" style="margin-bottom: 18px;">
+                    <div class="feature-box">
+                        <div class="feature-icon">💰</div>
+                        <div class="feature-title">1500–3000 сом</div>
+                        <div class="feature-desc">Заработок в день</div>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">📅</div>
+                        <div class="feature-title">Гибкий график</div>
+                        <div class="feature-desc">Выбирай смены сам</div>
+                    </div>
+                </div>
+
+                <div class="card-title" style="font-size: 16px;">Заполнить анкету:</div>
+
+                <div class="form-group">
+                    <label>Ваше ФИО / Имя</label>
+                    <input type="text" id="jobName" placeholder="Ваше имя">
+                </div>
+
+                <div class="form-group">
+                    <label>Телефон для связи</label>
+                    <input type="tel" id="jobPhone" placeholder="+996 (___) __-__-__">
+                </div>
+
+                <div class="form-group">
+                    <label>Ваш транспорт</label>
+                    <select id="jobTransport">
+                        <option value="Скутер / Мопед">Скутер / Мопед</option>
+                        <option value="Велосипед">Велосипед</option>
+                        <option value="Пеший курьер">Пеший курьер</option>
+                        <option value="Автомобиль">Автомобиль</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Опыт работы курьером</label>
+                    <select id="jobExp">
+                        <option value="Без опыта">Без опыта (научим)</option>
+                        <option value="До 1 года">До 1 года</option>
+                        <option value="Более 1 года">Более 1 года</option>
+                    </select>
+                </div>
+
+                <button class="btn-neon-wa" onclick="sendJobWA()">
+                    💼 Отправить анкету курьера
+                </button>
             </div>
         </div>
 
-        <!-- ВКЛАДКА 4: БИЗНЕС -->
+        <!-- ВКЛАДКА 3: ДЛЯ БИЗНЕСА -->
         <div id="tab-biz" class="tab-content">
             <div class="card">
-                <div class="card-title">🏢 Партнёрство для магазинов</div>
-                <p style="font-size:13px; color:#a1a1aa; margin-bottom:12px;">Специальные тарифы и быстрая отправка заказов клиентам.</p>
-                <a href="https://wa.me/996506696697?text=Хочу%20заключить%20договор%20для%20магазина" class="btn-neon-wa" target="_blank">🤝 Написать владельцу</a>
+                <div class="card-title">🏢 Доставка для Бизнеса</div>
+                <p style="color: var(--text-muted); font-size: 13px; line-height: 1.7; margin-bottom: 16px;">
+                    У вас интернет-магазин, шоурум, аптека или ресторан в Бишкеке? Доверяйте доставку заказов вашим клиентам профессионалам!
+                </p>
+
+                <div style="background: rgba(255,255,255,0.03); padding: 14px; border-radius: 14px; border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 16px;">
+                    <p style="font-size: 13px; color: #fff; margin-bottom: 8px;">✅ <b>Приоритетная подача курьера</b></p>
+                    <p style="font-size: 13px; color: #fff; margin-bottom: 8px;">✅ <b>Отчётность и инкассация выкупа</b></p>
+                    <p style="font-size: 13px; color: #fff;">✅ <b>Специальные корпоративные тарифы</b></p>
+                </div>
+
+                <a href="https://wa.me/996506696697?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%AF%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%BB%D1%8E%D1%87%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%20%D0%B4%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0." class="btn-neon-wa" target="_blank">
+                    🤝 Обсудить сотрудничество
+                </a>
             </div>
         </div>
 
-        <!-- КАБИНЕТЫ ПОСЛЕ ВХОДА -->
-        <div id="roleCabinet" class="card" style="display:none; border-color:#06b6d4;">
-            <div class="card-title" id="roleTitle">Кабинет</div>
-            <div id="roleContent"></div>
-            <button class="btn-login-hdr" style="background:rgba(239,68,68,0.2); border-color:#ef4444; width:100%; margin-top:15px;" onclick="logout()">Выйти из профиля</button>
+        <!-- ВКЛАДКА 4: О НАС И КОНТАКТЫ -->
+        <div id="tab-about" class="tab-content">
+            <div class="card">
+                <div class="card-title">💎 О компании SJ Express</div>
+                <p style="color: var(--text-muted); font-size: 13px; line-height: 1.7; margin-bottom: 15px;">
+                    Мы — технологичная служба курьерской экспресс-доставки по городу Бишкек. Быстрая скорость реагирования, вежливые курьеры и полная сохранность вашей посылки.
+                </p>
+                <p style="color: var(--text-muted); font-size: 13px; line-height: 1.9;">
+                    📍 <b>Город:</b> Бишкек, Кыргызстан<br>
+                    ⏰ <b>График:</b> 08:00 – 00:00 (Ежедневно)<br>
+                    📱 <b>Direct WhatsApp:</b> <a href="https://wa.me/996506696697" style="color: var(--whatsapp-green); font-weight: bold;">+996 506 696 697</a>
+                </p>
+            </div>
         </div>
 
-        <footer>© 2026 SJ Express • Бишкек</footer>
-    </div>
+        <footer>
+            © 2026 SJ Express. Все права защищены.<br>Бишкек, Кыргызстан.
+        </footer>
 
-    <!-- МОДАЛЬНОЕ ОКНО АВТОРИЗАЦИИ -->
-    <div class="modal" id="loginModal">
-        <div class="card" style="width:100%; max-width:360px;">
-            <div class="card-title">🔑 Вход в личный кабинет</div>
-            <div class="form-group">
-                <label>Выберите роль</label>
-                <select id="userRole">
-                    <option value="courier">🛵 Курьер (ПИН: 1234)</option>
-                    <option value="owner">👑 Владелец (ПИН: 7777)</option>
-                    <option value="business">🏢 Бизнес-партнёр (ПИН: 5555)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Введите ПИН-код доступа</label>
-                <input type="password" id="userPin" placeholder="****">
-            </div>
-            <button class="btn-login-hdr" style="width:100%; padding:14px;" onclick="login()">Войти</button>
-            <button class="btn-login-hdr" style="width:100%; padding:10px; margin-top:8px; background:transparent; border:none;" onclick="closeModal()">Отмена</button>
-        </div>
     </div>
 
     <script>
         function openTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            let contents = document.querySelectorAll('.tab-content');
+            let buttons = document.querySelectorAll('.tab-btn');
+
+            contents.forEach(c => c.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
         }
 
         function calculate() {
             let dist = parseFloat(document.getElementById('distance').value) || 0;
+            let type = document.getElementById('type').value;
+
             let base = 70 + (dist * 15);
             if (base < 120) base = 120;
+
+            if (type === 'express') base += 50;
+
+            if (document.getElementById('optBuy').checked) base += 50;
+            if (document.getElementById('optDoor').checked) base += 30;
+            if (document.getElementById('optFragile').checked) base += 30;
+
             document.getElementById('priceResult').innerText = base + " сом";
         }
 
-        function openModal() { document.getElementById('loginModal').classList.add('active'); }
-        function closeModal() { document.getElementById('loginModal').classList.remove('active'); }
-
-        function login() {
-            let role = document.getElementById('userRole').value;
-            let pin = document.getElementById('userPin').value;
-
-            if (role === 'courier' && pin === '1234') {
-                showCabinet("🛵 Кабинет Курьера", `
-                    <p style="font-size:13px; color:#a1a1aa; margin-bottom:10px;">Активный заказ #SJ-101:</p>
-                    <p style="font-size:14px; color:#fff;">📍 <b>Откуда:</b> Чуй 120 (ЦУМ)<br>🏁 <b>Куда:</b> Манаса 40<br>💰 <b>Оплата:</b> 180 сом</p>
-                    <a class="btn-2gis" href="https://2gis.kg/bishkek/search/%D0%A7%D1%83%D0%B9%20120" target="_blank">🗺 Построить маршрут в 2ГИС</a>
-                    <button class="btn-neon-wa" onclick="alert('Статус заказа изменен на: Посылка забрана!')">✅ Принял посылку</button>
-                `);
-            } else if (role === 'owner' && pin === '7777') {
-                showCabinet("👑 Панель Владельца SJ Express", `
-                    <p style="font-size:13px; color:#a1a1aa;">Статистика за сегодня:</p>
-                    <p style="font-size:18px; color:#06b6d4; font-weight:bold; margin-bottom:10px;">Касса: 4 200 сом (12 заказов)</p>
-                    <p style="font-size:13px; color:#fff;">Активные курьеры на смене: 4 человека</p>
-                `);
-            } else if (role === 'business' && pin === '5555') {
-                showCabinet("🏢 Кабинет Бизнес-Партнёра", `
-                    <p style="font-size:13px; color:#a1a1aa;">Ваша персональная скидка: 10% на все отправки!</p>
-                `);
-            } else {
-                alert("Неверный ПИН-код!");
-            }
-        }
-
-        function showCabinet(title, html) {
-            closeModal();
-            document.getElementById('roleCabinet').style.display = 'block';
-            document.getElementById('roleTitle').innerText = title;
-            document.getElementById('roleContent').innerHTML = html;
-        }
-
-        function logout() { document.getElementById('roleCabinet').style.display = 'none'; }
-
-        function checkTrack() {
-            document.getElementById('trackResult').style.display = 'block';
+        function toggleCheckbox(id) {
+            let cb = document.getElementById(id);
+            cb.checked = !cb.checked;
+            calculate();
         }
 
         function sendOrderWA() {
-            let name = document.getElementById('name').value;
-            let phone = document.getElementById('phone').value;
-            let from = document.getElementById('from').value;
-            let to = document.getElementById('to').value;
+            let name = document.getElementById('name').value.trim();
+            let phone = document.getElementById('phone').value.trim();
+            let from = document.getElementById('from').value.trim();
+            let to = document.getElementById('to').value.trim();
+            let dist = document.getElementById('distance').value;
+            let type = document.getElementById('type').options[document.getElementById('type').selectedIndex].text;
             let price = document.getElementById('priceResult').innerText;
+            let comment = document.getElementById('comment').value.trim();
 
             if (!from || !to || !name || !phone) {
-                alert("Заполните адреса, имя и телефон!");
+                alert("Пожалуйста, заполните адреса, имя и номер телефона!");
                 return;
             }
 
-            let text = `📦 *НОВЫЙ ЗАКАЗ — SJ EXPRESS*\n\n👤 *Имя:* ${name}\n📞 *Тел:* ${phone}\n📍 *Откуда:* ${from}\n🏁 *Куда:* ${to}\n💰 *Цена:* ${price}`;
+            let opts = [];
+            if (document.getElementById('optBuy').checked) opts.push("Выкуп товара");
+            if (document.getElementById('optDoor').checked) opts.push("До двери/Этаж");
+            if (document.getElementById('optFragile').checked) opts.push("Хрупкий груз");
+            let optsText = opts.length > 0 ? opts.join(", ") : "Нет";
+
+            let text = `📦 *НОВЫЙ ЗАКАЗ — SJ EXPRESS*\n\n` +
+                       `👤 *Имя:* ${name}\n` +
+                       `📞 *Телефон:* ${phone}\n` +
+                       `📍 *Откуда:* ${from}\n` +
+                       `🏁 *Куда:* ${to}\n` +
+                       `📏 *Расстояние:* ~${dist} км\n` +
+                       `⚡ *Тариф:* ${type}\n` +
+                       `🛠 *Доп. услуги:* ${optsText}\n` +
+                       `💬 *Комментарий:* ${comment || 'Нет'}\n\n` +
+                       `💰 *ИТОГО:* *${price}*`;
+
             window.open(`https://wa.me/996506696697?text=${encodeURIComponent(text)}`, '_blank');
         }
 
         function sendJobWA() {
-            let name = document.getElementById('jobName').value;
-            let phone = document.getElementById('jobPhone').value;
-            if(!name || !phone) { alert("Заполните имя и телефон!"); return; }
-            let text = `💼 *ЗАЯВКА В КУРЬЕРЫ*\n👤 *Имя:* ${name}\n📞 *Тел:* ${phone}`;
+            let name = document.getElementById('jobName').value.trim();
+            let phone = document.getElementById('jobPhone').value.trim();
+            let transport = document.getElementById('jobTransport').value;
+            let exp = document.getElementById('jobExp').value;
+
+            if (!name || !phone) {
+                alert("Заполните Ваше имя и номер телефона!");
+                return;
+            }
+
+            let text = `💼 *ЗАЯВКА НА РАБОТУ КУРЬЕРОМ*\n\n` +
+                       `👤 *ФИО:* ${name}\n` +
+                       `📞 *Телефон:* ${phone}\n` +
+                       `🛵 *Транспорт:* ${transport}\n` +
+                       `⭐ *Опыт:* ${exp}`;
+
             window.open(`https://wa.me/996506696697?text=${encodeURIComponent(text)}`, '_blank');
         }
 
